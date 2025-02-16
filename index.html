@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thời Khóa Biểu HUET</title>
+    <link rel="icon" href="https://huet.hueuni.edu.vn/wp-content/uploads/2024/07/huet_favicon.png" sizes="32x32">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            margin: 5px;
+        }
+
+        .active {
+            background-color: #ddd;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: none;
+            border-top: 2px solid #000;
+            border-left: 2px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Thời Khóa Biểu</h1>
+    <p id="weekInfo"></p>
+    <div class="tabs" id="tabsContainer"></div>
+    <div class="image-container">
+        <img id="scheduleImage" src="" alt="Thời khóa biểu">
+    </div>
+    <p id="currentTime"></p>
+
+
+    <script>
+
+
+        const schedule = [
+            { week: 27, startDate: "2025-02-10", endDate: "2025-02-16", image: "source/image/image_27-31.png" },
+            { week: 28, startDate: "2025-02-17", endDate: "2025-02-23", image: "source/image/image_27-31.png" },
+            { week: 29, startDate: "2025-02-24", endDate: "2025-03-02", image: "source/image/image_27-31.png" },
+            { week: 30, startDate: "2025-03-03", endDate: "2025-03-09", image: "source/image/image_27-31.png" },
+            { week: 31, startDate: "2025-03-10", endDate: "2025-03-16", image: "source/image/image_27-31.png" },
+            { week: 32, startDate: "2025-03-17", endDate: "2025-03-23", image: "source/image/image_32.png" },
+            { week: 33, startDate: "2025-03-24", endDate: "2025-03-30", image: "source/image/image_33.png" },
+            { week: 34, startDate: "2025-03-31", endDate: "2025-04-06", image: "source/image/image_34.png" },
+            { week: 35, startDate: "2025-04-07", endDate: "2025-04-13", image: "source/image/image_35.png" },
+            { week: 36, startDate: "2025-04-14", endDate: "2025-04-20", image: "source/image/image_36.png" },
+            { week: 37, startDate: "2025-04-21", endDate: "2025-04-27", image: "source/image/image_37.png" },
+            { week: 38, startDate: "2025-04-28", endDate: "2025-05-04", image: "source/image/image_38.png" },
+            { week: 39, startDate: "2025-05-05", endDate: "2025-05-11", image: "source/image/image_38.png" },
+            { week: 40, startDate: "2025-05-12", endDate: "2025-05-18", image: "source/image/image_38.png" },
+            { week: 41, startDate: "2025-05-19", endDate: "2025-05-25", image: "source/image/image_38.png" }
+        ];
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const formattedDate = now.toLocaleDateString('vi-VN');
+            document.getElementById("currentTime").textContent = `Thời gian hiện tại: ${formattedTime} - ${formattedDate}`;
+        }
+
+        // Cập nhật ngay khi tải trang và sau mỗi giây
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+
+        function parseLocalDate(dateString) {
+            const parts = dateString.split('-');
+            return new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+
+        function formatDate(dateString) {
+            const parts = dateString.split('-');
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+
+        function getCurrentWeek() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            for (let i = 0; i < schedule.length; i++) {
+                const weekStart = parseLocalDate(schedule[i].startDate);
+                const weekEnd = parseLocalDate(schedule[i].endDate);
+                if (today >= weekStart && today <= weekEnd) {
+                    return schedule[i];
+                }
+            }
+            return schedule[schedule.length - 1];
+        }
+
+        function updateSchedule(week) {
+            const selectedWeek = schedule.find(s => s.week === week);
+            if (selectedWeek) {
+                document.getElementById("weekInfo").textContent = `Tuần ${selectedWeek.week} (${formatDate(selectedWeek.startDate)} - ${formatDate(selectedWeek.endDate)})`;
+                document.getElementById("scheduleImage").src = selectedWeek.image;
+                document.getElementById("scheduleImage").style.display = "block";
+                document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+                document.getElementById(`tab-${week}`).classList.add("active");
+            }
+        }
+
+        function createTabs() {
+            const tabsContainer = document.getElementById("tabsContainer");
+            schedule.forEach(item => {
+                let tab = document.createElement("div");
+                tab.className = "tab";
+                tab.id = `tab-${item.week}`;
+                tab.textContent = `Tuần ${item.week}`;
+                tab.onclick = () => updateSchedule(item.week);
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        createTabs();
+        const currentWeek = getCurrentWeek();
+        if (currentWeek) {
+            updateSchedule(currentWeek.week);
+        }
+    </script>
+</body>
+
+</html>
