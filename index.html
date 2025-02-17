@@ -5,21 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thời Khóa Biểu HUET</title>
-    <!-- Thêm các thẻ meta và favicon mới -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" type="image/png" href="https://huet.hueuni.edu.vn/wp-content/uploads/2024/07/favicon-32x32.png">
 
-    <!-- Giữ nguyên các apple-touch-icon -->
-    <link rel="apple-touch-icon" sizes="120x120"
-        href="https://huet.hueuni.edu.vn/wp-content/uploads/2024/07/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="152x152"
-        href="https://huet.hueuni.edu.vn/wp-content/uploads/2024/07/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="167x167"
-        href="https://huet.hueuni.edu.vn/wp-content/uploads/2024/07/apple-touch-icon-167x167.png">
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="https://huet.hueuni.edu.vn/wp-content/uploads/2024/07/apple-touch-icon-180x180.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="URL_MOI/favicon-32x32.png">
 
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="120x120" href="URL_MOI/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="URL_MOI/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="URL_MOI/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="URL_MOI/apple-touch-icon-180x180.png">
 
     <style>
         body {
@@ -70,10 +64,7 @@
     </div>
     <p id="currentTime"></p>
 
-
     <script>
-
-
         const schedule = [
             { week: 27, startDate: "2025-02-10", endDate: "2025-02-16", image: "source/image/image_27-31.png" },
             { week: 28, startDate: "2025-02-17", endDate: "2025-02-23", image: "source/image/image_27-31.png" },
@@ -99,7 +90,6 @@
             document.getElementById("currentTime").textContent = `Thời gian hiện tại: ${formattedTime} - ${formattedDate}`;
         }
 
-        // Cập nhật ngay khi tải trang và sau mỗi giây
         updateCurrentTime();
         setInterval(updateCurrentTime, 1000);
 
